@@ -1,5 +1,16 @@
 class MoviesController < ApplicationController
 
+  def same_director
+    id = params[:id]
+    @movie = Movie.find(id)
+    
+    if @movie.director.nil? or @movie.director.empty? then
+      redirect_to movies_path, :notice => "'#{@movie.title}' has no director info"
+    end
+
+    @movies = @movie.find_all_by_director
+  end
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
